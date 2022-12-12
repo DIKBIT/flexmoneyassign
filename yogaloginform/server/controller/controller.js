@@ -40,16 +40,17 @@ exports.login=(req,res)=>{
 //controller for register
 exports.registerUser=async(req,res)=>{
     try {
+        
 
         //validate request
-        if(req.body){
+         if(!req.body){
             res.status(406).json({err: "You have to fill all the fields in the form"})
             return
         }
 
-        let{mail,password,comfirmpwd, username} = req.body
+        let{mail,password,confirmpwd,username,age} = req.body
 
-        if(!mail || !password || !confirmpwd)
+        if(!mail || !password || !confirmpwd || !age)
         return res.status(406).json({err:"Not all fields have been entered"})
 
         if(password.length <8)
@@ -58,14 +59,17 @@ exports.registerUser=async(req,res)=>{
         if(password!==confirmpwd)
         return res.status(406).json({err:"Confirm password didn't matched"});
 
+        if(age <18 || age>65)
+        return res.status(406).json({err: "You are not eligible"});
+
         //hashing password
         const hash = await bcrypt.hashSync(password,10)
 
-        res.json({mail,hash,comfirmpwd, username})
+        res.json({mail,hash,confirmpwd, username,age})
         
     } catch (error) {
         res.status(500).json({err:error.message || "Error while registration"})
         
     }
-    res.json({message:"register user response"})
+    
 };
