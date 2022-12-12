@@ -1,6 +1,30 @@
 //controller for login
 exports.login=(req,res)=>{
-    res.json({message:"controller response"})
+
+    try {
+
+        // validate request
+        if(!req.body){
+            res.status(406).json({err:"You have to fill the email and password field"})
+            return;
+        }
+
+
+
+        //get user data
+         const {mail, password} = req.body
+
+        // validation 
+         if(!mail || !password)
+        res.status(406).json({err:"Not all fields have been entered"})
+
+        res.json({mail, password})
+        
+    } catch (error) {
+      res.status(500).jon({err:error.message || "Error while logging"})  
+    }
+
+    
 };
 
 
@@ -16,7 +40,7 @@ exports.registerUser=(req,res)=>{
 
         let{mail,password,comfirmpwd, username} = req.body
 
-        if(!email || !password || !confirmpwd)
+        if(!mail || !password || !confirmpwd)
         return res.status(406).json({err:"Not all fields have been entered"})
 
         if(password.length <8)
