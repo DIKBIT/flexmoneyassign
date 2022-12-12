@@ -1,3 +1,9 @@
+const bcrypt = require('bcrypt')
+
+
+
+
+
 //controller for login
 exports.login=(req,res)=>{
 
@@ -18,7 +24,10 @@ exports.login=(req,res)=>{
          if(!mail || !password)
         res.status(406).json({err:"Not all fields have been entered"})
 
-        res.json({mail, password})
+        //compare the password
+        const isMatch = bcrypt.compare(password)
+
+        res.json({mail, isMatch})
         
     } catch (error) {
       res.status(500).jon({err:error.message || "Error while logging"})  
@@ -29,7 +38,7 @@ exports.login=(req,res)=>{
 
 
 //controller for register
-exports.registerUser=(req,res)=>{
+exports.registerUser=async(req,res)=>{
     try {
 
         //validate request
@@ -46,10 +55,13 @@ exports.registerUser=(req,res)=>{
         if(password.length <8)
         return res.status(406).json({err:"Password needs to be 8 characters long"})
 
-        if(password!=confirmpwd)
-        return res.status(406).json({err:"Confirm password didn't matched"})
+        if(password!==confirmpwd)
+        return res.status(406).json({err:"Confirm password didn't matched"});
 
-        res.json({mail,password,comfirmpwd, username})
+        //hashing password
+        const hash = await bcrypt.hashSync(password,10)
+
+        res.json({mail,hash,comfirmpwd, username})
         
     } catch (error) {
         res.status(500).json({err:error.message || "Error while registration"})
