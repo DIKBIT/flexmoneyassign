@@ -20,7 +20,6 @@
     "eject": "react-scripts eject",
     "server": "nodemon server/server.js",
     "startReact": "react-scripts start"
-
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "nodemon": "^2.0.20",
