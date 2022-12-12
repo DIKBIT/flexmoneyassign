@@ -19,7 +19,7 @@ const Register = (props) => {
         <input type="number" {...register("age", {required: true,min:18, max:65})} placeholder='Age'/>
         {errors.age?.type==="required" && "age is to be specified"}
         {errors.age?.type==="min" && "your age is less than 18 hence not elogible"}
-        {errors.age?.type==="rmax" && "your age is more than 18 hence not eligible"}
+        {errors.age?.type==="max" && "your age is more than 18 hence not eligible"}
         <button className='btn'>REGISTER </button>
              
         </form>

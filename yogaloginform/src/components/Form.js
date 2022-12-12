@@ -18,6 +18,7 @@ const Form = (props) => {
         <button className='btn'>SIGN IN </button>
         <h5>New candidate? Register here </h5>
         <button className='btn'>REGISTER </button>
+    
              
         </form>
         
