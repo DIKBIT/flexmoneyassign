@@ -1,4 +1,5 @@
 const express = require('express')
+const router = require("./router/router")
 
 // connecting to Mysql
 const mysql = require('mysql2');

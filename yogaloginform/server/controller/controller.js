@@ -1,4 +1,6 @@
 const bcrypt = require('bcrypt')
+const router = require('../router/router')
+const conn = require ('../db/conn')
 
 
 
@@ -40,6 +42,24 @@ exports.login=(req,res)=>{
 //controller for register
 exports.registerUser=async(req,res)=>{
     try {
+
+        let{mail,password,confirmpwd,username,age} = req.body
+
+
+        // checking that no two email should match and if not then adding the user to the database
+        conn.query("SELECT * FROM users WHERE mail = ?", mail,(err,result)=>{
+            if(result.length){
+                return res.status(406).json("This email is already taken")
+            } else {
+                conn.query("INSERT INTO users SET?",{mail,password,confirmpwd,username,age},(err, result)=>{
+                   if(err){
+                    console.log("err" + err);
+                   } else{
+                    res.status(201).json(req.body);
+                   } 
+                })
+            }
+        } )
         
 
         //validate request
@@ -48,9 +68,9 @@ exports.registerUser=async(req,res)=>{
             return
         }
 
-        let{mail,password,confirmpwd,username,age} = req.body
+        
 
-        if(!mail || !password || !confirmpwd || !age)
+        if(!mail || !password || !confirmpwd || !age || !username)
         return res.status(406).json({err:"Not all fields have been entered"})
 
         if(password.length <8)

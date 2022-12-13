@@ -1,6 +1,9 @@
 import React from 'react'
 import bgImg from '../assets/3921140.jpg'
 import {useForm} from 'react-hook-form'
+// const router = require('../../server/router/router')
+// const controller = require("../../server/controller/controller")
+
 
 const Register = (props) => {
 
