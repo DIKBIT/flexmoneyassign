@@ -19,6 +19,8 @@ app.use(cors());
 //routes
 app.use('/api', require('./router/router'));
 
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
 app.listen(PORT,() => {
     console.log(`Server is running on http://localhost:4000`); 
 })

@@ -1,15 +1,79 @@
-import React from 'react'
+import React ,{useContext, useState} from 'react'
 import bgImg from '../assets/3921140.jpg'
 import {useForm} from 'react-hook-form'
 // const router = require('../../server/router/router')
 // const controller = require("../../server/controller/controller")
+import { NavLink } from 'react-router-dom'
+import { adddata } from './context/ContextProvider'
+
 
 
 const Register = (props) => {
+  const {udata, setUdata} = useContext(adddata)
+  // const history = useHistory();
+
+  const [inpval,setINP] = useState({
+    username:"",
+    mail :"",
+    pasword:"",
+    confirmpwd :"",
+    age :""
+  })
+
+  const setdata = (e) =>{
+    console.log(e.target.value);
+    const{name,value}=e.target;
+    setINP((preval)=>{
+      return {
+        ...preval,
+        [name]:value
+      }
+
+    })
+  }
+
+  const addinpdata = async (e) =>{
+    e.preventDefault();
+
+    const{username, mail, password, confirmpwd, age} =inpval;
+
+    if(username ==="" || password ===""|| confirmpwd===""||age==="")
+    alert("Fields are not filled.")
+    else if (!mail.includes("@"))
+    alert("Enter valid email address")
+    else{
+
+      const res= await fetch("/register",{
+        method :"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          username,mail,confirmpwd,age
+        })
+
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.status === 422 || !data){
+        console.log("error");
+        alert("error");
+      }
+      else{
+        // history.push("/")
+        setUdata(data)
+        console.log("data added");
+      }
+    }
+  }
+
+  
 
     const {register, handleSubmit, formState:{errors}} = useForm()
     const onSubmit = data => console.log(data);
-  return (
+   return (
     <div className = 'register'>
     <div className='col-1'>
         <h2>YOGA REGISTER FORM</h2>
