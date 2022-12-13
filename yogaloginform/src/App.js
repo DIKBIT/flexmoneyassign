@@ -15,9 +15,7 @@ function App() {
 
 
 
-    {/* <Form>
-      <Register></Register>
-    </Form> */}
+   
     
       
     </div>
